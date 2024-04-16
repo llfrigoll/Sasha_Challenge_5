@@ -67,35 +67,46 @@ const MONTHS = [
   
   // Only edit below this comment
   
+  //Creates html element that stores athlete data
   const createHtml = (athlete) => {
+    //Deconstructs the athlete object into 4 parts
     const {firstName, surname, id, races} = athlete
+    //Deconstructs the object of the last race into 2 parts
     const {date, time} = races.reverse()[0];
   
+    //Creates a document fragment to store details
     const fragment = document.createDocumentFragment();
   
+    //Creates h2 element and sets its textContent to the athlete's id and appends it to the fragment
     let title = document.createElement("h2");
     title.textContent = id;
     fragment.appendChild(title);
   
+    //Creates a dl
     let list = document.createElement("dl");
   
+    //Grabs the day, month and year from date
     const d = new Date(date)
     const day = d.getDate();
     const month = MONTHS[d.getMonth()];
     const year = d.getFullYear();
   
+    //Deconstructs the time array into 4 numbers and adds them
     const [first, second, third, fourth] = time;
     let totalMinutes = first + second + third + fourth;
   
+    //Uses trunc() to get the hour value, stores it as a string and adds padstart to it
     let hours = Math.trunc(totalMinutes / 60)
     hours = hours.toString()
     hours = hours.padStart(2, "0")
 
+    //Uses modular to get the total minutes, stores it as a string and adds padstart to it
     let minutes = totalMinutes % 60
     minutes = minutes.toString()
     minutes = minutes.padStart(2, "0")
   
-    list.innerHTML = /* html */ `
+    //Adds innerHTML to add the relevant information to the list
+    list.innerHTML = `
       <dt>Athlete:</dt>
       <dd>${firstName} ${surname}</dd>
   
@@ -109,10 +120,15 @@ const MONTHS = [
       <dd>${hours}:${minutes}</dd>
     `;
   
+    //Appends list to the fragment and returns the fragment
     fragment.appendChild(list);
     return fragment
   }
   
+  //Deconstructs the innerdata object into the 2 athletes
   const {NM372, SV782} = data.response.data
+
+  //Grabs the section element of each athlete and uses the deconstructed objects as arguments
+  //to run the createHtml function and append it to each element
   document.querySelector("#NM372").appendChild(createHtml(NM372));
   document.querySelector("#SV782").appendChild(createHtml(SV782));
