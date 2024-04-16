@@ -8,12 +8,26 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Athletes</title>
+  <style>
+    dl {
+  display: grid;
+  grid-template-columns: max-content auto;
+  }
+
+dt {
+  grid-column-start: 1;
+  }
+
+dd {
+  grid-column-start: 2;
+  }
+  </style>
   <script src="./scripts.js" defer type="module"></script>
 </head>
   <body>
     <h1>Athletes</h1>
 
-    <section data-athlete="NM372"></section>
-    <section data-athlete="SV782"></section>
+    <section id="NM372"></section>
+    <section id="SV782"></section>
   </body>
 </html>

@@ -68,44 +68,51 @@ const MONTHS = [
   // Only edit below this comment
   
   const createHtml = (athlete) => {
-    firstName, surname, id, races = athlete
-    [date], [time] = races.reverse()
+    const {firstName, surname, id, races} = athlete
+    const {date, time} = races.reverse()[0];
   
     const fragment = document.createDocumentFragment();
   
-    title = document.createElement(h2);
-    title= id;
+    let title = document.createElement("h2");
+    title.textContent = id;
     fragment.appendChild(title);
   
-    const list = document.createElement(dl);
+    let list = document.createElement("dl");
   
-    const day = date.getDate();
-    const month = MONTHS[date.month];
-    const year = date.year;
+    const d = new Date(date)
+    const day = d.getDate();
+    const month = MONTHS[d.getMonth()];
+    const year = d.getFullYear();
   
-    first, second, third, fourth = timeAsArray;
-    total = first + second + third + fourth;
+    const [first, second, third, fourth] = time;
+    let totalMinutes = first + second + third + fourth;
   
-    const hours = total / 60;
-    const minutes = total / hours / 60;
+    let hours = Math.trunc(totalMinutes / 60)
+    hours = hours.toString()
+    hours = hours.padStart(2, "0")
+
+    let minutes = totalMinutes % 60
+    minutes = minutes.toString()
+    minutes = minutes.padStart(2, "0")
   
     list.innerHTML = /* html */ `
-      <dt>Athlete</dt>
+      <dt>Athlete:</dt>
       <dd>${firstName} ${surname}</dd>
   
-      <dt>Total Races</dt>
-      <dd>${races}</dd>
+      <dt>Total Races:</dt>
+      <dd>${races.length}</dd>
   
-      <dt>Event Date (Latest)</dt>
+      <dt>Event Date (Latest):</dt>
       <dd>${day} ${month} ${year}</dd>
   
-      <dt>Total Time (Latest)</dt>
-      <dd>${hours.padStart(2, 0)} ${minutes}</dd>
+      <dt>Total Time (Latest):</dt>
+      <dd>${hours}:${minutes}</dd>
     `;
   
     fragment.appendChild(list);
+    return fragment
   }
   
-  [NM372], [SV782] = data
-  document.querySelector(NM372).appendChild(createHtml(NM372));
-  document.querySelector(SV782).appendChild(createHtml(SV782));
+  const {NM372, SV782} = data.response.data
+  document.querySelector("#NM372").appendChild(createHtml(NM372));
+  document.querySelector("#SV782").appendChild(createHtml(SV782));
